@@ -12,6 +12,19 @@ alt="Logo" width="260" height="80">
 </h3>
 
   <p align="center">
+    
+<b>👉 Join the Community<b/>
+<a href="https://www.skool.com/dev-affranchi">
+Les devs Affranchis
+</a>
+<br />
+
+<b>📀 My Youtube channel<b/>
+<a href="https://www.youtube.com/@DevAffranchi">
+Dev Affranchi
+</a>
+<br />
+
 <b>✅ iOS<b/>
 <a href="https://apps.apple.com/app/id6608979195">
 App using this template on AppStore
