@@ -17,26 +17,18 @@ alt="Logo" width="260" height="80">
 <a href="https://www.skool.com/dev-affranchi">
 Les devs Affranchis
 </a>
-<br />
 
-<b>📀 My Youtube channel<b/>
-<a href="https://www.youtube.com/@DevAffranchi">
-Dev Affranchi
-</a>
-<br />
+[![Youtube]][Youtube-url]
 
 <b>✅ iOS<b/>
 <a href="https://apps.apple.com/app/id6608979195">
 App using this template on AppStore
 </a>
 
-<br />
-<br />
 <b>✅ Android<b/>
 <a href="https://play.google.com/store/apps/details?id=ai.quiz.infinity">
 App using this template on PlayStore
 </a>
-<br />
 
 [![Angular][Angular.io]][Angular-url]
 <br />
@@ -52,6 +44,10 @@ Request Feature</a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[Youtube]: https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white
+
+[Youtube-url]: https://www.youtube.com/@DevAffranchi
 
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
 
