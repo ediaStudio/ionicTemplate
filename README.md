@@ -42,4 +42,4 @@ Request Feature</a>
 
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
 
-[Angular-url]: https://angular.io/
+[Angular-url]: https://angular.dev/
