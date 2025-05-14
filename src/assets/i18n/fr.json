@@ -1,2 +1,5 @@
 {
+  "settings": "Paramètres",
+  "profile": "Profil",
+  "welcomeMessage": "Bienvenue {{name}}"
 }

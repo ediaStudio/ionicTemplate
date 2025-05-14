@@ -1,3 +1,20 @@
-<p>
-    profile works!
-</p>
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-title>
+            {{ "profile" | translate }}
+        </ion-title>
+        <ion-buttons slot="end">
+            <div (click)="openSettingsModal()">
+                <ion-icon name="settings-outline" size="large"></ion-icon>
+            </div>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    {{
+        "welcomeMessage" | translate:{
+            name: firstName
+        }
+    }}
+</ion-content>

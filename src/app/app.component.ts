@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {Platform} from "@ionic/angular";
-import {TranslateService} from "@ngx-translate/core";
+import {ModalController, Platform} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
 import {ELang, langStorage} from "../../functions/src/models/language";
+import {ModalService} from "./shared/services/modal.service";
+import {Capacitor} from "@capacitor/core";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-root',
@@ -13,13 +15,17 @@ import {ELang, langStorage} from "../../functions/src/models/language";
 export class AppComponent {
     constructor(
         private platform: Platform,
-        private translate: TranslateService) {
+        private modalController: ModalController,
+        private translate: TranslateService,
+        private modalService: ModalService) {
         this.initializeApp();
     }
+
 
     private initializeApp() {
         this.platform.ready().then(async () => {
             await this.initTranslation();
+            this.pressBackButton();
         });
     }
 
@@ -36,6 +42,32 @@ export class AppComponent {
             this.translate.use(lang);
         } catch (e: any) {
             console.error(e);
+        }
+    }
+
+    // small fix to allow user to close a modal by clicking on return button on android device
+    private pressBackButton() {
+        if (Capacitor.getPlatform() === "android") {
+            this.platform.backButton.subscribeWithPriority(10, async () => {
+                const modal = await this.modalController.getTop();
+                if (modal) {
+                    modal.dismiss();
+                }
+            });
+        } else if (Capacitor.getPlatform() === "web") {
+            window.history.pushState({}, '');
+            this.modalService.getModalState().subscribe(isOpen => {
+                if (isOpen) {
+                    window.history.pushState({}, '');
+                }
+            });
+            // Event listener for popstate
+            window.addEventListener('popstate', async (event) => {
+                const modal = await this.modalController.getTop();
+                if (modal) {
+                    modal.dismiss();
+                }
+            });
         }
     }
 
