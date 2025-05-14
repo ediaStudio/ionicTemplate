@@ -5,6 +5,7 @@ import {ELang, langStorage} from "../../functions/src/models/language";
 import {ModalService} from "./shared/services/modal.service";
 import {Capacitor} from "@capacitor/core";
 import {TranslateService} from "@ngx-translate/core";
+import {darkStorage} from "@models/general";
 
 @Component({
     selector: 'app-root',
@@ -21,10 +22,20 @@ export class AppComponent {
         this.initializeApp();
     }
 
+    async initializeDarkPalette() {
+        try {
+            let {value} = await Preferences.get({key: darkStorage});
+            console.log(value);
+            document.documentElement.classList.toggle('ion-palette-dark', !!value);
+        } catch (e: any) {
+            console.error(e);
+        }
+    }
 
     private initializeApp() {
         this.platform.ready().then(async () => {
             await this.initTranslation();
+            this.initializeDarkPalette();
             this.pressBackButton();
         });
     }

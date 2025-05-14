@@ -4,6 +4,7 @@ import {ELang, langStorage, LANGUAGES} from "@models/language";
 import {MiscService} from "@services/misc.service";
 import {Preferences} from "@capacitor/preferences";
 import {TranslateService} from "@ngx-translate/core";
+import {darkStorage} from "@models/general";
 
 @Component({
     selector: 'app-settings',
@@ -14,6 +15,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class SettingsComponent implements OnInit {
 
     currentLang: ELang = ELang.en;
+    paletteToggle = false;
 
     constructor(
         private modalController: ModalController,
@@ -23,6 +25,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.initializeDarkPalette();
         this.currentLang = this.translate.currentLang as ELang || ELang.en;
     }
 
@@ -59,6 +62,33 @@ export class SettingsComponent implements OnInit {
             console.error(e);
         }
     }
+
+    async initializeDarkPalette() {
+        try {
+            let {value} = await Preferences.get({key: darkStorage});
+            console.log(value);
+            this.paletteToggle = !!value;
+        } catch (e: any) {
+            console.error(e);
+        }
+    }
+
+    // Listen for the toggle check/uncheck to toggle the dark palette
+    async toggleChange(event: CustomEvent) {
+        const isDark = !!event?.detail?.checked;
+        document.documentElement.classList.toggle('ion-palette-dark', isDark);
+        if (isDark) {
+            await Preferences.set({
+                key: darkStorage,
+                value: "true",
+            });
+        } else {
+            await Preferences.remove({
+                key: darkStorage,
+            });
+        }
+    }
+
 
 }
 
