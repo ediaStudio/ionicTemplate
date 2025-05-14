@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IonicModule} from "@ionic/angular";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {SettingsComponent} from "./components/settings/settings.component";
 
@@ -14,12 +14,14 @@ import {SettingsComponent} from "./components/settings/settings.component";
         CommonModule,
         IonicModule,
         FormsModule,
+        ReactiveFormsModule,
         TranslateModule
     ],
     exports: [
         CommonModule,
         IonicModule,
         FormsModule,
+        ReactiveFormsModule,
         TranslateModule,
         SettingsComponent
     ],
