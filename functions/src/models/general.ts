@@ -1,5 +1,6 @@
 export const darkStorage = "darkMode";
 export const onboardingStorage = "onboarding";
+export const REGION = 'us-central1'; // TODO replace by your region
 
 export enum EFunctionsErrorCode {
     OK = 'ok',

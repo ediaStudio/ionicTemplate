@@ -10,6 +10,7 @@ import {OnboardingComponent} from "@app/onboarding/onboarding.component";
 import {register} from 'swiper/element/bundle';
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {firebaseApp} from "@app/app.module";
+import {UserService} from "@services/user.service";
 
 register();
 
@@ -22,6 +23,7 @@ register();
 export class AppComponent {
     constructor(
         private platform: Platform,
+        private userService: UserService,
         private modalController: ModalController,
         private translate: TranslateService,
         private modalService: ModalService) {
@@ -33,6 +35,14 @@ export class AppComponent {
             let {value} = await Preferences.get({key: darkStorage});
             console.log(value);
             document.documentElement.classList.toggle('ion-palette-dark', !!value);
+        } catch (e: any) {
+            console.error(e);
+        }
+    }
+
+    async setUserCall(payload?: any) {
+        try {
+            await this.userService.setUserCall(payload);
         } catch (e: any) {
             console.error(e);
         }
@@ -125,6 +135,7 @@ export class AppComponent {
                 console.log("onAuthStateChanged", user);
                 if (user?.uid) {
                     // Ca signifie que l'utilisateur est connecté
+                    this.setUserCall()
                 }
             } catch (error) {
                 console.error("Error in onAuthStateChanged:", error);

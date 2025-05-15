@@ -8,6 +8,7 @@ import {EFunctionsErrorCode} from "@models/general";
 
 export const setUserApi = onCall(async (request, response) => {
 
+    const lang = request?.data?.lang;
     const uid = request?.auth?.uid;
     const name = request?.auth?.token.name || "";
     const picture = request?.auth?.token.picture || "";
@@ -25,11 +26,13 @@ export const setUserApi = onCall(async (request, response) => {
         // Si l'utilisateur existe déjà, on le met à jour
         if (user) {
             await setUser(uid, {
+                lang,
                 updated: now
             })
         } else {
             // Sinon, on le crée
             await setUser(uid, {
+                lang,
                 userId: uid,
                 name,
                 picture,
