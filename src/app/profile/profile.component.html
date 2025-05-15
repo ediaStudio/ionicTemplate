@@ -17,4 +17,10 @@
             name: firstName
         }
     }}
+
+    <ion-button (click)="openLoginModal()">
+        <ion-icon name="log-in" slot="start"></ion-icon>
+        {{ "signin" | translate }}
+    </ion-button>
+
 </ion-content>

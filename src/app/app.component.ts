@@ -8,6 +8,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {darkStorage, onboardingStorage} from "@models/general";
 import {OnboardingComponent} from "@app/onboarding/onboarding.component";
 import {register} from 'swiper/element/bundle';
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {firebaseApp} from "@app/app.module";
 
 register();
 
@@ -42,6 +44,7 @@ export class AppComponent {
             this.initializeDarkPalette();
             this.presentOnboarding();
             this.pressBackButton();
+            this.initializeFirebase();
         });
     }
 
@@ -111,5 +114,23 @@ export class AppComponent {
             console.error(e);
         }
     }
+
+    private async initializeFirebase() {
+        console.log("initializeFirebase")
+        const auth = getAuth(firebaseApp);
+        console.log("auth", auth);
+
+        onAuthStateChanged(auth, async user => {
+            try {
+                console.log("onAuthStateChanged", user);
+                if (user?.uid) {
+                    // Ca signifie que l'utilisateur est connecté
+                }
+            } catch (error) {
+                console.error("Error in onAuthStateChanged:", error);
+            }
+        });
+    }
+
 
 }

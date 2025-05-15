@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SettingsComponent} from "@shared/components/settings/settings.component";
 import {ModalController} from "@ionic/angular";
 import {ModalService} from "@services/modal.service";
+import {LoginComponent} from "@app/login/login.component";
 
 @Component({
     selector: 'app-profile',
@@ -31,4 +32,13 @@ export class ProfileComponent implements OnInit {
         this.modalService.openingModal();
     }
 
+    async openLoginModal() {
+        const modal = await this.modalController.create({
+            component: LoginComponent as any,
+            cssClass: '',
+            backdropDismiss: false,
+            componentProps: {}
+        });
+        await modal.present();
+    }
 }

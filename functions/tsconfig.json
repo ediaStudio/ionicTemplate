@@ -16,9 +16,6 @@
       ],
       "@helpers/*": [
         "./src/helpers/*"
-      ],
-      "@project/*": [
-        "./src/project/*"
       ]
     }
   },
