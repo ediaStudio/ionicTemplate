@@ -5,7 +5,11 @@ import {ELang, langStorage} from "../../functions/src/models/language";
 import {ModalService} from "./shared/services/modal.service";
 import {Capacitor} from "@capacitor/core";
 import {TranslateService} from "@ngx-translate/core";
-import {darkStorage} from "@models/general";
+import {darkStorage, onboardingStorage} from "@models/general";
+import {OnboardingComponent} from "@app/onboarding/onboarding.component";
+import {register} from 'swiper/element/bundle';
+
+register();
 
 @Component({
     selector: 'app-root',
@@ -36,6 +40,7 @@ export class AppComponent {
         this.platform.ready().then(async () => {
             await this.initTranslation();
             this.initializeDarkPalette();
+            this.presentOnboarding();
             this.pressBackButton();
         });
     }
@@ -79,6 +84,31 @@ export class AppComponent {
                     modal.dismiss();
                 }
             });
+        }
+    }
+
+    private async presentOnboarding() {
+        try {
+            const {value} = await Preferences.get({key: onboardingStorage});
+
+            if (!value) {
+                const modal = await this.modalController.create({
+                    component: OnboardingComponent as any,
+                    cssClass: '',
+                    backdropDismiss: false,
+                    componentProps: {}
+                });
+                await modal.present();
+
+                modal.onWillDismiss().then(async (res) => {
+                    await Preferences.set({
+                        key: onboardingStorage,
+                        value: "true",
+                    });
+                })
+            }
+        } catch (e: any) {
+            console.error(e);
         }
     }
 

@@ -1,0 +1,30 @@
+<ion-content class="ion-padding">
+    <div (click)="close()" class="skip">
+        {{ "skip" | translate }}
+    </div>
+    <swiper-container
+        #swiper
+        [modules]="swiperModules"
+        pagination="true">
+
+        <swiper-slide *ngFor="let slide of slides">
+            <div class="slide">
+                <img [src]="slide.image" class="slide-image"/>
+                <h2 class="slide-title">{{ slide.title }}</h2>
+                <p class="slide-description">{{ slide.description }}</p>
+            </div>
+            <ion-button (click)="close()" *ngIf="slide.displayBtn"
+                        class="ion-margin-top"
+                        shape="round">
+                {{ 'getStarted' | translate }}
+            </ion-button>
+            <ion-button (click)="nextSlide()"
+                        *ngIf="!slide?.displayBtn" class="ion-margin-top"
+                        color="secondary"
+                        shape="round">
+                {{ 'next' | translate }}
+            </ion-button>
+        </swiper-slide>
+
+    </swiper-container>
+</ion-content>
