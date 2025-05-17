@@ -11,6 +11,8 @@ import {register} from 'swiper/element/bundle';
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {firebaseApp} from "@app/app.module";
 import {UserService} from "@services/user.service";
+import {environment} from "@environments/environment";
+import {connectFunctionsEmulator, getFunctions} from "firebase/functions";
 
 register();
 
@@ -30,7 +32,7 @@ export class AppComponent {
         this.initializeApp();
     }
 
-    async initializeDarkPalette() {
+    private async initializeDarkPalette() {
         try {
             let {value} = await Preferences.get({key: darkStorage});
             console.log(value);
@@ -40,7 +42,7 @@ export class AppComponent {
         }
     }
 
-    async setUserCall(payload?: any) {
+    private async setUserCall(payload?: any) {
         try {
             await this.userService.setUserCall(payload);
         } catch (e: any) {
@@ -50,6 +52,11 @@ export class AppComponent {
 
     private initializeApp() {
         this.platform.ready().then(async () => {
+            const currentURL = window.location.href;
+            const isLocalhost = currentURL?.includes('localhost') && !environment.production;
+            if (isLocalhost) {
+                connectFunctionsEmulator(getFunctions(firebaseApp), "localhost", 5001);
+            }
             await this.initTranslation();
             this.initializeDarkPalette();
             this.presentOnboarding();

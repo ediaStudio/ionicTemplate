@@ -10,6 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "emulators": "firebase emulators:start --only functions",
     "sync-android": "ionic capacitor sync android --configuration production",
     "sync-ios": "ionic capacitor sync ios --configuration production",
     "sync-all": "npm run sync-android && npm run sync-ios",
