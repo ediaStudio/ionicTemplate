@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">dhaTemplate</string>
+    <string name="title_activity_main">dhaTemplate</string>
+    <string name="package_name">dha.app.template</string>
+    <string name="custom_url_scheme">dha.app.template</string>
+</resources>
