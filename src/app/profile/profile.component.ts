@@ -9,6 +9,8 @@ import {getAuth} from "firebase/auth";
 import {Share} from "@capacitor/share";
 import {APPINFO} from "@models/appInfos";
 import {TranslateService} from "@ngx-translate/core";
+import {Capacitor} from "@capacitor/core";
+import {NativeMarket} from "@capacitor-community/native-market";
 
 @Component({
     selector: 'app-profile',
@@ -86,6 +88,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
             dialogTitle: subject,
             files: files
         });
+    }
+
+    async rateUs() {
+        try {
+            let packageName = APPINFO.iosId;
+            if (Capacitor.getPlatform() === "android") {
+                packageName = APPINFO.package;
+            }
+            await NativeMarket.openStoreListing({
+                appId: packageName,
+            });
+        } catch (error: any) {
+            console.error(error);
+        }
     }
 
     private getCurrentUser() {
