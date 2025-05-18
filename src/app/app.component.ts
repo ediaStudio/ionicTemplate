@@ -149,6 +149,9 @@ export class AppComponent {
                 if (user?.uid) {
                     // Ca signifie que l'utilisateur est connecté
                     this.setUserCall()
+                } else {
+                    // L'utilisateur n'est pas connecté
+                    this.userService.setUser(undefined);
                 }
             } catch (error) {
                 console.error("Error in onAuthStateChanged:", error);
@@ -177,6 +180,7 @@ export class AppComponent {
                     user = d.data();
                     console.log(user);
                 }
+                this.userService.setUser(user);
             },
             (error: any) => {
                 console.error(error);

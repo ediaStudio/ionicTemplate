@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SettingsComponent} from "@shared/components/settings/settings.component";
 import {ModalController} from "@ionic/angular";
 import {ModalService} from "@services/modal.service";
 import {LoginComponent} from "@app/login/login.component";
+import {UserService} from "@services/user.service";
+import {Subject, takeUntil} from "rxjs";
+import {getAuth} from "firebase/auth";
 
 @Component({
     selector: 'app-profile',
@@ -10,15 +13,24 @@ import {LoginComponent} from "@app/login/login.component";
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
     firstName = "John Doe";
+    currentUser?: any;
+    private subscription = new Subject<void>();
 
     constructor(private modalController: ModalController,
+                private userService: UserService,
                 private modalService: ModalService) {
     }
 
     ngOnInit() {
+        this.getCurrentUser();
+    }
+
+    ngOnDestroy() {
+        this.subscription.next();
+        this.subscription.complete();
     }
 
     async openSettingsModal() {
@@ -41,4 +53,20 @@ export class ProfileComponent implements OnInit {
         });
         await modal.present();
     }
+
+    async logout() {
+        try {
+            await getAuth().signOut();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    private getCurrentUser() {
+        this.userService.getUser().pipe(takeUntil(this.subscription)).subscribe(async data => {
+            this.currentUser = data;
+            this.firstName = data?.name || "John Doe";
+        });
+    }
+
 }

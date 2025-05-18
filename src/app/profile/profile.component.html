@@ -12,15 +12,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    {{
-        "welcomeMessage" | translate:{
-            name: firstName
-        }
-    }}
+    <div>
+        {{
+            "welcomeMessage" | translate:{
+                name: firstName
+            }
+        }}
+    </div>
 
-    <ion-button (click)="openLoginModal()">
+    <ion-button (click)="openLoginModal()" *ngIf="!currentUser">
         <ion-icon name="log-in" slot="start"></ion-icon>
-        {{ "signin" | translate }}
+        <ion-label slot="end">{{ "signin" | translate }}</ion-label>
+    </ion-button>
+
+    <ion-button (click)="logout()"
+                *ngIf="currentUser"
+                color="danger">
+        <ion-icon name="log-in" slot="start"></ion-icon>
+        <ion-label slot="end">{{ "logout" | translate }}</ion-label>
     </ion-button>
 
 </ion-content>
