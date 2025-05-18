@@ -6,6 +6,9 @@ import {LoginComponent} from "@app/login/login.component";
 import {UserService} from "@services/user.service";
 import {Subject, takeUntil} from "rxjs";
 import {getAuth} from "firebase/auth";
+import {Share} from "@capacitor/share";
+import {APPINFO} from "@models/appInfos";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-profile',
@@ -21,6 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     constructor(private modalController: ModalController,
                 private userService: UserService,
+                private translate: TranslateService,
                 private modalService: ModalService) {
     }
 
@@ -60,6 +64,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    async showShareOptions() {
+
+        const res = await Share.canShare();
+        const canShare = !!res?.value;
+
+        if (!canShare) {
+            return;
+        }
+
+        const subject = this.translate.instant("shareSubject");
+        let message = this.translate.instant("shareMessage");
+        message += ` \niOS ➡️ ${APPINFO.iosUrl}\nAndroid ➡️ ${APPINFO.url}`;
+
+        let files: any[] = [];
+        await Share.share({
+            title: subject,
+            text: message,
+            dialogTitle: subject,
+            files: files
+        });
     }
 
     private getCurrentUser() {
