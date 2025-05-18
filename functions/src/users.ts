@@ -2,13 +2,14 @@ import {HttpsError, onCall} from "firebase-functions/v2/https";
 import {error} from "firebase-functions/logger";
 import {db} from "./firebaseInit";
 import {EFunctionsErrorCode} from "@models/general";
+import {ELang} from "@models/language";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/callable?gen=2nd
 
 export const setUserApi = onCall(async (request, response) => {
 
-    const lang = request?.data?.lang;
+    const lang = request?.data?.lang || ELang.en;
     const uid = request?.auth?.uid;
     const name = request?.auth?.token.name || "";
     const picture = request?.auth?.token.picture || "";
@@ -21,13 +22,11 @@ export const setUserApi = onCall(async (request, response) => {
             "User is not authenticated.");
     }
     try {
-        const now = Date.now();
         const user = await getUser(uid);
         // Si l'utilisateur existe déjà, on le met à jour
         if (user) {
-            await setUser(uid, {
-                lang,
-                updated: now
+            await updateUser(uid, {
+                lang
             })
         } else {
             // Sinon, on le crée
@@ -37,8 +36,7 @@ export const setUserApi = onCall(async (request, response) => {
                 name,
                 picture,
                 email,
-                email_verified,
-                created: now
+                email_verified
             })
         }
         return;
@@ -50,17 +48,36 @@ export const setUserApi = onCall(async (request, response) => {
     }
 });
 
-// Création ou mise à jour de l'utilisateur
+// Création de l'utilisateur
 export async function setUser(userId: string, user: any): Promise<any> {
+    console.log(user);
+    user.created = Date.now();
     try {
         await db.collection("users")
             .doc(userId)
-            .set(user, {merge: true});
+            .set(user);
     } catch (e: any) {
         error(e);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
-            "An error occurred while creating or updating the user.");
+            "An error occurred while creating the user.");
+    }
+
+    return user;
+}
+
+// Mise à jour de l'utilisateur
+export async function updateUser(userId: string, user: any): Promise<any> {
+    user.updated = Date.now();
+    try {
+        await db.collection("users")
+            .doc(userId)
+            .update(user);
+    } catch (e: any) {
+        error(e);
+        throw new HttpsError(
+            EFunctionsErrorCode.INTERNAL,
+            "An error occurred while updating the user.");
     }
 
     return user;

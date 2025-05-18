@@ -13,6 +13,7 @@ import {firebaseApp} from "@app/app.module";
 import {UserService} from "@services/user.service";
 import {environment} from "@environments/environment";
 import {connectFunctionsEmulator, getFunctions} from "firebase/functions";
+import {doc, getFirestore, onSnapshot, Unsubscribe} from "firebase/firestore";
 
 register();
 
@@ -23,6 +24,9 @@ register();
     standalone: false,
 })
 export class AppComponent {
+
+    userSnapshotListener!: Unsubscribe;
+
     constructor(
         private platform: Platform,
         private userService: UserService,
@@ -45,6 +49,8 @@ export class AppComponent {
     private async setUserCall(payload?: any) {
         try {
             await this.userService.setUserCall(payload);
+            const uid = getAuth()?.currentUser?.uid;
+            this.getUserLive(uid);
         } catch (e: any) {
             console.error(e);
         }
@@ -148,6 +154,34 @@ export class AppComponent {
                 console.error("Error in onAuthStateChanged:", error);
             }
         });
+    }
+
+    private async getUserLive(id?: string) {
+        // Si le listener existe déjà, on le supprime
+        if (this.userSnapshotListener) {
+            await this.userSnapshotListener();
+        }
+        if (!id) {
+            return;
+        }
+        console.log(id);
+        const db = getFirestore(firebaseApp);
+        // https://firebase.google.com/docs/firestore/query-data/listen
+        const referralQuery = doc(db,
+            "users", id);
+
+        this.userSnapshotListener = onSnapshot(referralQuery, async (d) => {
+                console.log(d);
+                let user;
+                if (d?.exists()) {
+                    user = d.data();
+                    console.log(user);
+                }
+            },
+            (error: any) => {
+                console.error(error);
+            }
+        )
     }
 
 
