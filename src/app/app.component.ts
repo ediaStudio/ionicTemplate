@@ -137,6 +137,7 @@ export class AppComponent {
             console.error(e);
         }
     }
+    
 
     private async initializeFirebase() {
         console.log("initializeFirebase")

@@ -1,22 +1,25 @@
 {
   "settings": "Settings",
+  "darkMode": "Dark Mode",
   "profile": "Profile",
-  "welcomeMessage": "Welcome {{name}}",
+  "welcomeMessage": "Welcome {{name}}!",
+  "signin": "Sign In",
+  "logout": "Logout",
+  "share": "Share",
+  "rateUs": "Rate Us",
   "skip": "Skip",
-  "next": "Next",
   "getStarted": "Get Started",
-  "slides": {
-    "slide1": {
-      "title": "Slide 1 title",
-      "description": "Slide 1 description"
-    },
-    "slide2": {
-      "title": "Slide 2 title",
-      "description": "Slide 2 description"
-    },
-    "slide3": {
-      "title": "Slide 3 title",
-      "description": "Slide 3 description"
-    }
-  }
+  "next": "Next",
+  "login": "Login",
+  "signinGoogle": "Sign in with Google",
+  "declineAction": "Decline",
+  "confirmAction": "Confirm",
+  "shareSubject": "Check out this app!",
+  "shareMessage": "I found this app and thought you might like it.",
+  "slides.slide1.title": "Welcome to the App",
+  "slides.slide1.description": "Discover amazing features to boost your experience.",
+  "slides.slide2.title": "Stay Connected",
+  "slides.slide2.description": "Engage with your community in real-time.",
+  "slides.slide3.title": "Achieve More",
+  "slides.slide3.description": "Track your progress and reach your goals."
 }

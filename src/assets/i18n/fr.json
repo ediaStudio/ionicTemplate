@@ -1,5 +1,25 @@
 {
   "settings": "Paramètres",
+  "darkMode": "Mode sombre",
   "profile": "Profil",
-  "welcomeMessage": "Bienvenue {{name}}"
+  "welcomeMessage": "Bienvenue {{name}} !",
+  "signin": "Se connecter",
+  "logout": "Se déconnecter",
+  "share": "Partager",
+  "rateUs": "Notez-nous",
+  "skip": "Passer",
+  "getStarted": "Commencer",
+  "next": "Suivant",
+  "login": "Connexion",
+  "signinGoogle": "Se connecter avec Google",
+  "declineAction": "Refuser",
+  "confirmAction": "Confirmer",
+  "shareSubject": "Découvre cette application !",
+  "shareMessage": "J'ai trouvé cette application et je pense qu'elle pourrait te plaire.",
+  "slides.slide1.title": "Bienvenue dans l'application",
+  "slides.slide1.description": "Découvrez des fonctionnalités incroyables pour améliorer votre expérience.",
+  "slides.slide2.title": "Restez connecté",
+  "slides.slide2.description": "Interagissez avec votre communauté en temps réel.",
+  "slides.slide3.title": "Atteignez plus",
+  "slides.slide3.description": "Suivez vos progrès et atteignez vos objectifs."
 }

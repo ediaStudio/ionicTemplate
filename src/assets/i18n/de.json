@@ -1,5 +1,25 @@
 {
   "settings": "Einstellungen",
+  "darkMode": "Dunkler Modus",
   "profile": "Profil",
-  "welcomeMessage": "Willkommen {{name}}"
+  "welcomeMessage": "Willkommen {{name}}!",
+  "signin": "Anmelden",
+  "logout": "Abmelden",
+  "share": "Teilen",
+  "rateUs": "Bewerte uns",
+  "skip": "Überspringen",
+  "getStarted": "Loslegen",
+  "next": "Weiter",
+  "login": "Login",
+  "signinGoogle": "Mit Google anmelden",
+  "declineAction": "Ablehnen",
+  "confirmAction": "Bestätigen",
+  "shareSubject": "Schau dir diese App an!",
+  "shareMessage": "Ich habe diese App entdeckt und dachte, sie könnte dir gefallen.",
+  "slides.slide1.title": "Willkommen in der App",
+  "slides.slide1.description": "Entdecke tolle Funktionen für ein besseres Erlebnis.",
+  "slides.slide2.title": "Bleib in Verbindung",
+  "slides.slide2.description": "Tausche dich in Echtzeit mit deiner Community aus.",
+  "slides.slide3.title": "Erreiche mehr",
+  "slides.slide3.description": "Verfolge deinen Fortschritt und erreiche deine Ziele."
 }
