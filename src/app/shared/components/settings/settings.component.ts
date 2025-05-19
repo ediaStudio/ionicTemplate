@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit {
             console.log(languageCode);
             try {
                 this.translate.use(languageCode);
+                this.currentLang = languageCode;
                 await Preferences.set({
                     key: langStorage,
                     value: languageCode,
