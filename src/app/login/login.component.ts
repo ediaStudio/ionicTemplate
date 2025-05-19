@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
         this.modalController.dismiss();
     }
 
+    // https://firebase.google.com/docs/auth/web/google-signin
     async connectWithProvider() {
         let provider = new GoogleAuthProvider();
 

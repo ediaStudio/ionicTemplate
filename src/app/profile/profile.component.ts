@@ -11,6 +11,7 @@ import {APPINFO} from "@models/appInfos";
 import {TranslateService} from "@ngx-translate/core";
 import {Capacitor} from "@capacitor/core";
 import {NativeMarket} from "@capacitor-community/native-market";
+import {MiscService} from "@services/misc.service";
 
 @Component({
     selector: 'app-profile',
@@ -26,6 +27,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     constructor(private modalController: ModalController,
                 private userService: UserService,
+                private miscService: MiscService,
                 private translate: TranslateService,
                 private modalService: ModalService) {
     }
@@ -61,33 +63,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     async logout() {
+        await this.miscService.showLoading();
         try {
             await getAuth().signOut();
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
+            this.miscService.presentToastWithOptions(err, true);
         }
+        this.miscService.dismissLoading();
     }
 
     async showShareOptions() {
 
-        const res = await Share.canShare();
-        const canShare = !!res?.value;
+        try {
+            const res = await Share.canShare();
+            const canShare = !!res?.value;
 
-        if (!canShare) {
-            return;
+            if (!canShare) {
+                return;
+            }
+
+            const subject = this.translate.instant("shareSubject");
+            let message = this.translate.instant("shareMessage");
+            message += ` \niOS ➡️ ${APPINFO.iosUrl}\nAndroid ➡️ ${APPINFO.url}`;
+
+            let files: any[] = [];
+            await Share.share({
+                title: subject,
+                text: message,
+                dialogTitle: subject,
+                files: files
+            });
+        } catch (error: any) {
+            console.error(error);
+            this.miscService.presentToastWithOptions(error, true);
         }
-
-        const subject = this.translate.instant("shareSubject");
-        let message = this.translate.instant("shareMessage");
-        message += ` \niOS ➡️ ${APPINFO.iosUrl}\nAndroid ➡️ ${APPINFO.url}`;
-
-        let files: any[] = [];
-        await Share.share({
-            title: subject,
-            text: message,
-            dialogTitle: subject,
-            files: files
-        });
     }
 
     async rateUs() {
@@ -101,6 +111,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             });
         } catch (error: any) {
             console.error(error);
+            this.miscService.presentToastWithOptions(error, true);
         }
     }
 

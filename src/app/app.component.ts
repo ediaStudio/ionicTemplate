@@ -14,7 +14,9 @@ import {UserService} from "@services/user.service";
 import {environment} from "@environments/environment";
 import {connectFunctionsEmulator, getFunctions} from "firebase/functions";
 import {doc, getFirestore, onSnapshot, Unsubscribe} from "firebase/firestore";
+import {MiscService} from "@services/misc.service";
 
+// C'est ce qui permet d'initializer le swiper qui est utilisé dans le onboarding
 register();
 
 @Component({
@@ -30,6 +32,7 @@ export class AppComponent {
     constructor(
         private platform: Platform,
         private userService: UserService,
+        private miscService: MiscService,
         private modalController: ModalController,
         private translate: TranslateService,
         private modalService: ModalService) {
@@ -47,13 +50,16 @@ export class AppComponent {
     }
 
     private async setUserCall(payload?: any) {
+        await this.miscService.showLoading();
         try {
             await this.userService.setUserCall(payload);
             const uid = getAuth()?.currentUser?.uid;
             this.getUserLive(uid);
         } catch (e: any) {
             console.error(e);
+            this.miscService.presentToastWithOptions(e, true);
         }
+        this.miscService.dismissLoading();
     }
 
     private initializeApp() {
