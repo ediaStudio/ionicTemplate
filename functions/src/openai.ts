@@ -26,7 +26,14 @@ export const openaiApi = onCall(async (request, response) => {
     try {
         const response = await queryChatGptByPrompt(query);
         console.log(response);
-        return response;
+        let content: any[] = [];
+        if (response?.output?.length) {
+            const output = response?.output[0];
+            if (output.content) {
+                content = content.concat(output.content);
+            }
+        }
+        return content;
     } catch (e: any) {
         console.error(e);
         throw new HttpsError(

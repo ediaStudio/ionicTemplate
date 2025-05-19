@@ -11,6 +11,7 @@ import {MiscService} from "@services/misc.service";
 export class Tab3Page {
 
     prompt: string = "";
+    responses: any[] = [];
 
     constructor(
         private miscService: MiscService,
@@ -27,6 +28,8 @@ export class Tab3Page {
             const response = await this.openaiService.openaiApi(this.prompt);
             console.log(response);
             this.prompt = "";
+            const data = response?.data || [];
+            this.responses = this.responses.concat(data);
         } catch (e: any) {
             console.error(e);
             this.miscService.displayError(e);
