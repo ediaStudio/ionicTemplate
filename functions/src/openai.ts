@@ -98,15 +98,16 @@ export async function queryWebSearch(): Promise<any> {
 
     try {
         const response = await openai.responses.create({
-            model: EGPTModel.gpt4_1mini,
+            model: EGPTModel.gpt4_1,
             tools: [{
                 type: "web_search_preview",
+                search_context_size: "high",
                 user_location: {
                     type: "approximate",
                     country: "FR"
                 }
             }],
-            input: "Liste-moi tous les matchs de la dernière journée de Ligue 1 avec pour chaque match : date, équipe à domicile, équipe à l’extérieur, score final et buteurs s’ils sont disponibles.",
+            input: "Liste-moi tous les matchs de la dernière journée de Ligue 1 (saison 2024-2025) avec pour chaque match : date, équipe à domicile, équipe à l’extérieur, score final.",
         });
 
         console.log(response);
