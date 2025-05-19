@@ -1,6 +1,6 @@
 // TODO remplacez par votre clé api openai
 // https://platform.openai.com/settings/organization/api-keys
-export const GPT_KEY = "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";
+export const GPT_KEY = "TODO";
 
 export interface IGPTMessage {
     role: EGPTRole;
@@ -15,8 +15,15 @@ export enum EGPTRole {
     user = "user",
 }
 
+// Liste de tous les modèles disponibles ici
+// https://platform.openai.com/docs/models
+// et le prix pour chaque model
+// https://platform.openai.com/docs/pricing
 export enum EGPTModel {
     turbo3 = "gpt-3.5-turbo",
+    omni_moderation_latest = "omni-moderation-latest",
+    gpt4_1mini = "gpt-4.1-mini",
+    gpt4_0mini_search = "gpt-4o-mini-search-preview-2025-03-11\n",
     mini4 = "gpt-4o-mini",
 }
 

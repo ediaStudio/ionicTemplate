@@ -43,6 +43,28 @@ export const openaiApi = onCall(async (request, response) => {
 });
 
 
+export const webSearchQuery = onCall(async (request, response) => {
+
+    const uid = request?.auth?.uid;
+
+    if (!uid) {
+        throw new HttpsError(
+            EFunctionsErrorCode.UNAUTHENTICATED,
+            "User is not authenticated.");
+    }
+
+    try {
+        const response = await queryWebSearch();
+        return response;
+    } catch (e: any) {
+        console.error(e);
+        throw new HttpsError(
+            EFunctionsErrorCode.INTERNAL,
+            e?.message);
+    }
+});
+
+
 export async function queryChatGptByPrompt(
     prompt: string
 ): Promise<any> {
@@ -60,6 +82,33 @@ export async function queryChatGptByPrompt(
             input: messages as any,
             model: EGPTModel.mini4,
         });
+        console.log(response);
+
+        return response;
+
+    } catch (error: any) {
+        console.error(error);
+        throw new HttpsError(
+            EFunctionsErrorCode.INTERNAL,
+            error.message);
+    }
+}
+
+export async function queryWebSearch(): Promise<any> {
+
+    try {
+        const response = await openai.responses.create({
+            model: EGPTModel.gpt4_1mini,
+            tools: [{
+                type: "web_search_preview",
+                user_location: {
+                    type: "approximate",
+                    country: "FR"
+                }
+            }],
+            input: "Liste-moi tous les matchs de la dernière journée de Ligue 1 avec pour chaque match : date, équipe à domicile, équipe à l’extérieur, score final et buteurs s’ils sont disponibles.",
+        });
+
         console.log(response);
 
         return response;

@@ -56,6 +56,15 @@
             {{ "submit" | translate }}
         </ion-button>
 
+        <ion-button
+                (click)="webSearchQuery()"
+                class="ion-margin-top"
+                color="secondary"
+                expand="full"
+                shape="round">
+            {{ "getLastGamesLigue1" | translate }}
+        </ion-button>
+
     </ion-list>
 
     <div *ngFor="let r of responses" class="ion-margin-top">

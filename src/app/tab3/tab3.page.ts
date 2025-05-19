@@ -12,6 +12,7 @@ export class Tab3Page {
 
     prompt: string = "";
     responses: any[] = [];
+    protected readonly queueMicrotask = queueMicrotask;
 
     constructor(
         private miscService: MiscService,
@@ -30,6 +31,19 @@ export class Tab3Page {
             this.prompt = "";
             const data = response?.data || [];
             this.responses = this.responses.concat(data);
+        } catch (e: any) {
+            console.error(e);
+            this.miscService.displayError(e);
+        }
+        this.miscService.dismissLoading();
+    }
+
+    async webSearchQuery() {
+
+        await this.miscService.showLoading();
+        try {
+            const response = await this.openaiService.webSearchQuery();
+            console.log(response);
         } catch (e: any) {
             console.error(e);
             this.miscService.displayError(e);
