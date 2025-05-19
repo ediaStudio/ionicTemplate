@@ -20,7 +20,7 @@ const routes: Routes = [
                 component: Tab2Page
             },
             {
-                path: 'tab3',
+                path: 'ai',
                 component: Tab3Page
             },
             {

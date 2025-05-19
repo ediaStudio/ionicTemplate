@@ -1,5 +1,4 @@
 import {HttpsError, onCall} from "firebase-functions/v2/https";
-import {error} from "firebase-functions/logger";
 import {db} from "./firebaseInit";
 import {EFunctionsErrorCode} from "@models/general";
 import {ELang} from "@models/language";
@@ -41,7 +40,7 @@ export const setUserApi = onCall(async (request, response) => {
         }
         return;
     } catch (e: any) {
-        error(e);
+        console.error(e);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
             "An error occurred while creating or updating the user.");
@@ -57,7 +56,7 @@ export async function setUser(userId: string, user: any): Promise<any> {
             .doc(userId)
             .set(user);
     } catch (e: any) {
-        error(e);
+        console.error(e);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
             "An error occurred while creating the user.");
@@ -74,7 +73,7 @@ export async function updateUser(userId: string, user: any): Promise<any> {
             .doc(userId)
             .update(user);
     } catch (e: any) {
-        error(e);
+        console.error(e);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
             "An error occurred while updating the user.");
@@ -93,7 +92,7 @@ export async function getUser(userId: string): Promise<any> {
             return res.data();
         }
     } catch (e: any) {
-        error(e);
+        console.error(e);
     }
 
     return;

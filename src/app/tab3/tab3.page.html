@@ -1,16 +1,60 @@
+<!--
+  Header section with translucent effect.
+  Contains a toolbar and a translated title ("openAi").
+-->
 <ion-header [translucent]="true">
     <ion-toolbar>
         <ion-title>
-            Tab 3
+            {{ "openAi" | translate }}
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-    </ion-header>
+<!--
+  Main content section with padding.
+  Includes a list of UI elements: an input field and a submit button.
+-->
+<ion-content class="ion-padding">
 
+    <!--
+      List container for form elements: input and button.
+    -->
+    <ion-list>
+
+        <!--
+          Input field:
+          - Binds to the 'prompt' variable using ngModel.
+          - Displays a translated label ('prompt').
+          - Allows clearing the input.
+          - Uses stacked label placement and has a placeholder.
+        -->
+        <ion-item>
+            <ion-input
+                    [(ngModel)]="prompt"
+                    [clearInput]="true"
+                    [label]="'prompt' | translate"
+                    labelPlacement="stacked"
+                    placeholder="Enter text to see clear button"
+                    value="Default value">
+            </ion-input>
+        </ion-item>
+
+        <!--
+          Submit button:
+          - Calls the openaiApi() method on click.
+          - Disabled when 'prompt' is empty.
+          - Styled with margin, primary color, full width, and rounded shape.
+          - Label is translated as 'submit'.
+        -->
+        <ion-button
+                (click)="openaiApi()"
+                [disabled]="!prompt"
+                class="ion-margin-top"
+                color="primary"
+                expand="full"
+                shape="round">
+            {{ "submit" | translate }}
+        </ion-button>
+
+    </ion-list>
 </ion-content>

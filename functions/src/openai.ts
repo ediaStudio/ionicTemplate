@@ -2,7 +2,6 @@ import {HttpsError, onCall} from "firebase-functions/https";
 import {EFunctionsErrorCode} from "./models/general";
 import OpenAI from "openai";
 import {EGPTModel, EGPTRole, GPT_KEY, IGPTMessage} from "./models/openai";
-import {error} from "firebase-functions/logger";
 
 const openai = new OpenAI({
     apiKey: GPT_KEY
@@ -29,7 +28,7 @@ export const openaiApi = onCall(async (request, response) => {
         console.log(response);
         return response;
     } catch (e: any) {
-        error(e);
+        console.error(e);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
             e?.message);
@@ -59,7 +58,7 @@ export async function queryChatGptByPrompt(
         return response;
 
     } catch (error: any) {
-        error(error);
+        console.error(error);
         throw new HttpsError(
             EFunctionsErrorCode.INTERNAL,
             error.message);
