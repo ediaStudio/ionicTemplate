@@ -23,6 +23,7 @@ export enum EGPTModel {
     turbo3 = "gpt-3.5-turbo",
     omni_moderation_latest = "omni-moderation-latest",
     gpt4_1mini = "gpt-4.1-mini",
+    gpt4_1 = "gpt-4.1",
     gpt4_0mini_search = "gpt-4o-mini-search-preview-2025-03-11\n",
     mini4 = "gpt-4o-mini",
 }

@@ -21,4 +21,9 @@ export class OpenaiService {
         const callRequest = httpsCallable(this.functions, 'openai-webSearchQuery');
         return callRequest();
     }
+
+    async webSearchQueryFormatted() {
+        const callRequest = httpsCallable(this.functions, 'openai-webSearchQueryFormatted');
+        return callRequest();
+    }
 }

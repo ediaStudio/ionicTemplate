@@ -62,12 +62,32 @@
                 color="secondary"
                 expand="full"
                 shape="round">
-            {{ "getLastGamesLigue1" | translate }}
+            {{ "getLastGames" | translate }}
+        </ion-button>
+        <!--        Liste des matchs non formatées-->
+        <div>{{ notFormattedGames }}</div>
+
+        <ion-button
+                (click)="webSearchQueryFormatted()"
+                class="ion-margin-top"
+                color="tertiary"
+                expand="full"
+                shape="round">
+            {{ "getLastGamesFormatted" | translate }}
         </ion-button>
 
     </ion-list>
 
     <div *ngFor="let r of responses" class="ion-margin-top">
-        {{ r.text }}
+        {{ r }}
+    </div>
+
+    <!--    Formatted response-->
+    <div *ngFor="let match of lastGames" class="match">
+        <p><strong>Date:</strong> {{ match.date }}</p>
+        <p><strong>Home:</strong> {{ match.home_team }}</p>
+        <p><strong>Away:</strong> {{ match.away_team }}</p>
+        <p><strong>Score:</strong> {{ match.score }}</p>
+        <hr/>
     </div>
 </ion-content>
