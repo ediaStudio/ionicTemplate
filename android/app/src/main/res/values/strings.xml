@@ -4,4 +4,6 @@
     <string name="title_activity_main">dhaTemplate</string>
     <string name="package_name">dha.app.template</string>
     <string name="custom_url_scheme">dha.app.template</string>
+    <string name="admob_app_id">ca-app-pub-5672455571394042~5144332656</string>
+    // Ajoutez ca et remplacez [APP_ID] par votre ID d'application AdMob
 </resources>
