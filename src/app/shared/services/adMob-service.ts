@@ -22,37 +22,28 @@ import {Capacitor} from "@capacitor/core";
 })
 export class AdMobService {
 
-    // TODO false in prod
-    isTesting = false;
+    // Activer le mode test (désactiver en prod)
+    isTesting = true;
 
-    // TODO change to your banner ID for android
+    // Identifiants des publicités (Android par défaut, remplacés par ceux d’iOS plus bas si nécessaire)
     bannerId = "ca-app-pub-5672455571394042/7608904697";
-    // TODO change to your interstitial ID for android
     interstitialId = "ca-app-pub-5672455571394042/8659096637";
-    // TODO change to your rewarded ad ID for android
     rewardId = "ca-app-pub-5672455571394042/9110259444";
 
-    private interstitialReady = false;
-    private bannerVisible = false;
-    private timeout = 60000;
-    private rewardReady = new BehaviorSubject<boolean>(false);
-    private bannerVisible_ = new BehaviorSubject<boolean>(false);
+    private bannerVisible = false; // pour suivre si la bannière est affichée
+    private timeout = 60000; // délai en ms pour recharger une pub après échec
+    private rewardReady = new BehaviorSubject<boolean>(false); // état des rewards (prêtes ou non)
+    private bannerVisible_ = new BehaviorSubject<boolean>(false); // pour les composants Angular
 
-    constructor(
-        public platform: Platform) {
-
+    constructor(public platform: Platform) {
         console.log('AdMobProvider constructor');
         if (Capacitor.getPlatform() !== "web") {
-            this.init();
+            this.init(); // initialisation seulement sur plateforme native
         }
     }
 
+    // Affiche une bannière pub si non déjà visible
     async showBanner() {
-        // Skip if banner is already visible or if running on web
-        if (this.bannerVisible || Capacitor.getPlatform() === "web") {
-            return;
-        }
-
         const options: BannerAdOptions = {
             adId: this.bannerId,
             adSize: BannerAdSize.BANNER,
@@ -69,6 +60,7 @@ export class AdMobService {
         }
     }
 
+    // Supprime complètement la bannière
     async removeBanner() {
         try {
             await AdMob.removeBanner();
@@ -78,6 +70,7 @@ export class AdMobService {
         }
     }
 
+    // Cache la bannière (sans la détruire)
     async hideBanner() {
         try {
             await AdMob.hideBanner();
@@ -87,6 +80,7 @@ export class AdMobService {
         }
     }
 
+    // Ré-affiche une bannière déjà cachée
     async resumeBanner() {
         try {
             await AdMob.resumeBanner();
@@ -96,10 +90,8 @@ export class AdMobService {
         }
     }
 
+    // Affiche une pub interstitielle déjà préparée
     async showInterstitial() {
-        if (!this.interstitialReady) {
-            return;
-        }
         try {
             await AdMob.showInterstitial();
         } catch (e: any) {
@@ -107,67 +99,61 @@ export class AdMobService {
         }
     }
 
+    // Affiche une pub reward vidéo déjà préparée
     async showRewardVideoAd() {
         try {
             const rewardItem = await AdMob.showRewardVideoAd();
-            console.log(rewardItem);
+            console.log(rewardItem); // log la récompense donnée à l'utilisateur
         } catch (e: any) {
             console.error('rewardVideoAd', e);
         }
     }
 
+    // Observable pour suivre si la pub reward est prête
     getRewardReady() {
         return this.rewardReady.asObservable();
     }
 
+    // Définir l'état "ready" de la pub reward
     setRewardReady(rewardReady: boolean) {
         this.rewardReady.next(rewardReady);
     }
 
+    // Observable pour suivre si une bannière est affichée
     getBannerVisible() {
         return this.bannerVisible_.asObservable();
     }
 
+    // Met à jour l’état interne de la bannière (affichée ou non)
     setBannerVisible(visible: boolean) {
-        if (Capacitor.getPlatform() === "web") {
-            visible = false;
-        }
         this.bannerVisible = visible;
         this.bannerVisible_.next(visible);
     }
 
+    // Initialisation complète des pubs (selon la plateforme)
     private init() {
-
         this.platform.ready().then(async () => {
-
             try {
                 await this.initializeAdmob();
 
+                // Remplacement des IDs si on est sur iOS
                 if (Capacitor.getPlatform() === "ios") {
-                    // TODO change to your banner ID for ios
                     this.bannerId = "ca-app-pub-5672455571394042/4719851628";
-                    // TODO change to your interstitial ID for ios
                     this.interstitialId = "ca-app-pub-5672455571394042/3309900750";
-                    // TODO change to your rewarded ads ID for ios
                     this.rewardId = "ca-app-pub-5672455571394042/4707980008";
                 }
 
-
+                // Utilisation des IDs de test Google si `isTesting` est activé
                 if (this.isTesting) {
-                    // DO NOT CHANGE
-                    // PROVIDED BY GOOGLE FOR TESTING
-                    // https://developers.google.com/admob/android/test-ads
-                    this.bannerId = 'ca-app-pub-3940256099942544/6300978111';
+                    this.bannerId = 'ca-app-pub-3940256099942544/2435281174';
                     this.interstitialId = 'ca-app-pub-3940256099942544/1033173712';
                     this.rewardId = 'ca-app-pub-3940256099942544/5224354917';
                 }
 
-                this.initListeners();
+                this.initListeners(); // Ajout des écouteurs d’événements AdMob
 
-                //Prepare Ad to Show
+                // Préparer les pubs
                 this.prepareInterstitial();
-                //
-                //Prepare Ad to Show
                 this.prepareReward();
             } catch (e: any) {
                 console.error(e);
@@ -175,6 +161,7 @@ export class AdMobService {
         });
     }
 
+    // Préparer une pub interstitielle à l’avance
     private async prepareInterstitial() {
         const options: AdOptions = {
             adId: this.interstitialId,
@@ -187,6 +174,7 @@ export class AdMobService {
         }
     }
 
+    // Préparer une pub reward à l’avance
     private async prepareReward() {
         const options: RewardAdOptions = {
             adId: this.rewardId,
@@ -199,6 +187,7 @@ export class AdMobService {
         }
     }
 
+    // Initialisation de base d’AdMob + tracking + consentement
     private async initializeAdmob(): Promise<void> {
         await AdMob.initialize();
 
@@ -209,17 +198,7 @@ export class AdMobService {
             ]);
 
             if (trackingInfo.status === 'notDetermined') {
-                /**
-                 * If you want to explain TrackingAuthorization before showing the iOS dialog,
-                 * you can show the modal here.
-                 * ex)
-                 * const modal = await this.modalCtrl.create({
-                 *   component: RequestTrackingPage,
-                 * });
-                 * await modal.present();
-                 * await modal.onDidDismiss();  // Wait for close modal
-                 **/
-
+                // Ici tu peux afficher un modal personnalisé avant le dialogue iOS
                 await AdMob.requestTrackingAuthorization();
             }
 
@@ -231,72 +210,55 @@ export class AdMobService {
             ) {
                 await AdMob.showConsentForm();
             }
-        }, 3000)
+        }, 3000);
     }
 
+    // Ajoute tous les listeners nécessaires aux pubs
     private initListeners() {
-
-        // INTERSTITIAL
+        // INTERSTITIEL
         AdMob.addListener(InterstitialAdPluginEvents.Loaded, (info: AdLoadInfo) => {
             console.log(info);
         });
 
         AdMob.addListener(InterstitialAdPluginEvents.Dismissed, () => {
-            // Si l'utilisateur ferme l'interstitiel, on le prépare à nouveau
-            this.prepareInterstitial();
+            this.prepareInterstitial(); // Re-prépare l’interstitiel quand il est fermé
         });
 
         AdMob.addListener(InterstitialAdPluginEvents.FailedToLoad, (error: AdMobError) => {
             console.error(error);
-            setTimeout(() => {
-                // Si l'interstitiel échoue à charger, on le prépare à nouveau après un délai
-                this.prepareInterstitial();
-            }, this.timeout);
+            setTimeout(() => this.prepareInterstitial(), this.timeout); // Retry après délai
         });
 
         AdMob.addListener(InterstitialAdPluginEvents.FailedToShow, (error: AdMobError) => {
             console.error(error);
-            setTimeout(() => {
-                // si l'interstitiel échoue à s'afficher, on le prépare à nouveau après un délai
-                this.prepareInterstitial();
-            }, this.timeout);
+            setTimeout(() => this.prepareInterstitial(), this.timeout);
         });
 
-        // REWARDS
+        // REWARD
         AdMob.addListener(RewardAdPluginEvents.Loaded, (info: AdLoadInfo) => {
-            // Subscribe prepared rewardVideo
             console.log(info);
-            this.setRewardReady(true);
+            this.setRewardReady(true); // Reward prête
         });
 
         AdMob.addListener(RewardAdPluginEvents.Dismissed, () => {
             this.setRewardReady(false);
-            // Dès que le reward est fermé, on le prépare à nouveau
-            this.prepareReward();
+            this.prepareReward(); // Re-prépare dès que c’est fermé
         });
 
         AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error: AdMobError) => {
             console.error('RewardAdPluginEvents.FailedToLoad', error);
             this.setRewardReady(false);
-            setTimeout(() => {
-                // Si le reward échoue à charger, on le prépare à nouveau après un délai
-                this.prepareReward();
-            }, this.timeout);
+            setTimeout(() => this.prepareReward(), this.timeout);
         });
 
         AdMob.addListener(RewardAdPluginEvents.FailedToShow, (error: AdMobError) => {
-            console.log(error);
+            console.error(error);
             this.setRewardReady(false);
-            setTimeout(() => {
-                // si le reward échoue à s'afficher, on le prépare à nouveau après un délai
-                this.prepareReward();
-            }, this.timeout);
+            setTimeout(() => this.prepareReward(), this.timeout);
         });
 
         AdMob.addListener(RewardAdPluginEvents.Rewarded, (rewardItem: AdMobRewardItem) => {
-            // Give reward to user here
-            console.log('RewardAdPluginEvents.Rewarded', rewardItem);
+            console.log('RewardAdPluginEvents.Rewarded', rewardItem); // Donne la récompense ici
         });
     }
-
 }

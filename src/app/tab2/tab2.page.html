@@ -1,16 +1,55 @@
-<ion-header [translucent]="true">
+<!-- En-tête de la page -->
+<ion-header>
     <ion-toolbar>
         <ion-title>
-            Tab 2
+            Ads <!-- Titre affiché dans la barre supérieure -->
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-    </ion-header>
+<!-- Contenu principal de la page avec un padding autour -->
+<ion-content class="ion-padding">
+    
+    <!-- Bouton pour afficher la bannière publicitaire.
+         Il est visible uniquement si la bannière n’est pas déjà affichée -->
+    <ion-button (click)="displayBanner()"
+                *ngIf="!bannerVisible"
+                class="ion-margin-top"
+                color="primary"
+                expand="full"
+                shape="round">
+        Display Banner
+    </ion-button>
+
+    <!-- Bouton pour retirer la bannière publicitaire.
+         Il est visible uniquement si la bannière est affichée -->
+    <ion-button (click)="removeBanner()"
+                *ngIf="bannerVisible"
+                class="ion-margin-top"
+                color="danger"
+                expand="full"
+                shape="round">
+        Remove Banner
+    </ion-button>
+
+    <!-- Bouton pour afficher une publicité interstitielle -->
+    <ion-button (click)="displayInterstitial()"
+                class="ion-margin-top"
+                color="warning"
+                expand="full"
+                shape="round">
+        Display Interstitial
+    </ion-button>
+
+    <!-- Bouton pour regarder une publicité récompensée.
+         Désactivé tant que la pub n’est pas prête (rewardReady = false) -->
+    <ion-button (click)="watchRewards()"
+                [disabled]="!rewardReady"
+                class="ion-margin-top"
+                color="tertiary"
+                expand="full"
+                shape="round">
+        Watch Rewards
+    </ion-button>
 
 </ion-content>
