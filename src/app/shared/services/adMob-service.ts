@@ -46,8 +46,8 @@ export class AdMobService {
     async showBanner() {
         const options: BannerAdOptions = {
             adId: this.bannerId,
-            adSize: BannerAdSize.BANNER,
-            position: BannerAdPosition.TOP_CENTER,
+            adSize: BannerAdSize.BANNER, // Par défault la bannière fera 50px de haut
+            position: BannerAdPosition.TOP_CENTER, // On choisit d'afficher la bannière en haut de l'écran
             margin: 0,
             isTesting: this.isTesting
         };

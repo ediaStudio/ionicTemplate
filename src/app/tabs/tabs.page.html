@@ -1,27 +1,32 @@
-<ion-tabs>
+<!--On affiche le header seulement si la bannière est visible-->
+<ion-header *ngIf="bannerVisible">
+</ion-header>
+<ion-content>
+    <ion-tabs>
 
-    <ion-tab-bar slot="bottom">
-        <ion-tab-button href="/tab1" tab="tab1">
-            <ion-icon aria-hidden="true" name="triangle"></ion-icon>
-            <ion-label>Tab 1</ion-label>
-        </ion-tab-button>
+        <ion-tab-bar slot="bottom">
+            <ion-tab-button href="/tab1" tab="tab1">
+                <ion-icon aria-hidden="true" name="triangle"></ion-icon>
+                <ion-label>Tab 1</ion-label>
+            </ion-tab-button>
 
-        <ion-tab-button href="/tab2" tab="tab2">
-            <ion-icon aria-hidden="true" name="videocam"></ion-icon>
-            <ion-label>Ads</ion-label>
-        </ion-tab-button>
+            <ion-tab-button href="/tab2" tab="tab2">
+                <ion-icon aria-hidden="true" name="videocam"></ion-icon>
+                <ion-label>Ads</ion-label>
+            </ion-tab-button>
 
-        <ion-tab-button href="/ai" tab="ai">
-            <ion-icon aria-hidden="true" name="logo-electron"></ion-icon>
-            <ion-label>AI</ion-label>
-        </ion-tab-button>
+            <ion-tab-button href="/ai" tab="ai">
+                <ion-icon aria-hidden="true" name="logo-electron"></ion-icon>
+                <ion-label>AI</ion-label>
+            </ion-tab-button>
 
-        <!--        On ajoute un menu profile ici-->
-        <ion-tab-button href="/profile" tab="profile">
-            <ion-icon aria-hidden="true" name="person"></ion-icon>
-            <ion-label>Profile</ion-label>
-        </ion-tab-button>
+            <!--        On ajoute un menu profile ici-->
+            <ion-tab-button href="/profile" tab="profile">
+                <ion-icon aria-hidden="true" name="person"></ion-icon>
+                <ion-label>Profile</ion-label>
+            </ion-tab-button>
 
-    </ion-tab-bar>
+        </ion-tab-bar>
 
-</ion-tabs>
+    </ion-tabs>
+</ion-content>

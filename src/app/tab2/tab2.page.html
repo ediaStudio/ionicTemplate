@@ -1,6 +1,6 @@
 <!-- En-tête de la page -->
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
         <ion-title>
             Ads <!-- Titre affiché dans la barre supérieure -->
         </ion-title>
@@ -9,9 +9,9 @@
 
 <!-- Contenu principal de la page avec un padding autour -->
 <ion-content class="ion-padding">
-    
+
     <!-- Bouton pour afficher la bannière publicitaire.
-         Il est visible uniquement si la bannière n’est pas déjà affichée -->
+             Il est visible uniquement si la bannière n’est pas déjà affichée -->
     <ion-button (click)="displayBanner()"
                 *ngIf="!bannerVisible"
                 class="ion-margin-top"
