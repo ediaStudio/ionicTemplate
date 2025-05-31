@@ -6,6 +6,7 @@ import {Subject} from "rxjs";
 })
 export class ModalService {
 
+    addModalPadding = false;
     private modalOpened = new Subject<boolean>();
 
     constructor() {

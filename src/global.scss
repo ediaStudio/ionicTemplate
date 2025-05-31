@@ -72,3 +72,13 @@ swiper-container {
   }
 
 }
+
+ion-app {
+  ion-modal {
+    &.modal-ads {
+      .ion-page {
+        padding-top: calc(50px);
+      }
+    }
+  }
+}

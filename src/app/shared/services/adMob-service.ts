@@ -16,6 +16,7 @@ import {
 } from "@capacitor-community/admob";
 import {AdMobError} from "@capacitor-community/admob/dist/esm/shared";
 import {Capacitor} from "@capacitor/core";
+import {ModalService} from "@services/modal.service";
 
 @Injectable({
     providedIn: 'root'
@@ -35,7 +36,8 @@ export class AdMobService {
     private rewardReady = new BehaviorSubject<boolean>(false); // état des rewards (prêtes ou non)
     private bannerVisible_ = new BehaviorSubject<boolean>(false); // pour les composants Angular
 
-    constructor(public platform: Platform) {
+    constructor(public platform: Platform,
+                private modalService: ModalService) {
         console.log('AdMobProvider constructor');
         if (Capacitor.getPlatform() !== "web") {
             this.init(); // initialisation seulement sur plateforme native
@@ -127,6 +129,7 @@ export class AdMobService {
     // Met à jour l’état interne de la bannière (affichée ou non)
     setBannerVisible(visible: boolean) {
         this.bannerVisible = visible;
+        this.modalService.addModalPadding = visible; // on set addModalPadding à true ou false selon que la bannière soit visible
         this.bannerVisible_.next(visible);
     }
 

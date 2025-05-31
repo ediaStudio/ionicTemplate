@@ -45,7 +45,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const modal = await this.modalController.create({
             component: SettingsComponent as any,
             backdropDismiss: false,
-            cssClass: "",
+            // si une bannière est visible alors ajoute k-la classe modal-ads
+            cssClass: this.modalService.addModalPadding ? "modal-ads" : "",
             componentProps: {}
         });
         await modal.present();
@@ -55,7 +56,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     async openLoginModal() {
         const modal = await this.modalController.create({
             component: LoginComponent as any,
-            cssClass: '',
+            // si une bannière est visible alors ajoute k-la classe modal-ads
+            cssClass: this.modalService.addModalPadding ? "modal-ads" : "",
             backdropDismiss: false,
             componentProps: {}
         });

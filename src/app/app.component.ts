@@ -126,7 +126,8 @@ export class AppComponent {
             if (!value) {
                 const modal = await this.modalController.create({
                     component: OnboardingComponent as any,
-                    cssClass: '',
+                    // si une bannière est visible alors ajoute k-la classe modal-ads
+                    cssClass: this.modalService.addModalPadding ? "modal-ads" : "",
                     backdropDismiss: false,
                     componentProps: {}
                 });
