@@ -35,4 +35,6 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--    Ajoutez cette permission-->
+    <uses-permission android:name="com.android.vending.BILLING"/>
 </manifest>
