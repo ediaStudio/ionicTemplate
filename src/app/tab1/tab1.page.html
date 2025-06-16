@@ -7,10 +7,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 1</ion-title>
-        </ion-toolbar>
-    </ion-header>
+
+    <div *ngFor="let g of lastGame">
+        <div>
+            {{ g.away_team }}
+        </div>
+        <div>
+            {{ g.home_team }}
+        </div>
+    </div>
 
 </ion-content>

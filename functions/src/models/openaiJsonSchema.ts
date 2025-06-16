@@ -10,3 +10,13 @@ export const MatchesSchema = z.object({
         })
     ),
 });
+
+export const lastGamesSchema = z.object({
+    games: z.array(
+        z.object({
+            date: z.string(),
+            home_team: z.string(),
+            away_team: z.string()
+        })
+    ),
+});
