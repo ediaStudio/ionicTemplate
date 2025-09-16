@@ -1,0 +1,22 @@
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 15px 0;
+
+  ion-icon {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    width: 40px;
+    height: 40px;
+    color: white;
+  }
+
+  img {
+    width: 100%; /* responsive */
+    height: auto;
+    display: block;
+    border-radius: 15px;
+  }
+}
