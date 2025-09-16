@@ -1,54 +1,64 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-title>
-            {{ "profile" | translate }}
-        </ion-title>
-        <ion-buttons slot="end">
-            <div (click)="openSettingsModal()">
-                <ion-icon name="settings-outline" size="large"></ion-icon>
-            </div>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{ "profile" | translate }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <div (click)="openSettingsModal()">
+        <ion-icon name="settings-outline" size="large"></ion-icon>
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-    <div>
-        {{
-            "welcomeMessage" | translate:{
-                name: firstName
-            }
-        }}
+  <div>
+    {{
+      "welcomeMessage" | translate:{
+        name: firstName
+      }
+    }}
+  </div>
+
+  <ion-button (click)="openLoginModal()"
+              *ngIf="!currentUser" expand="full" shape="round">
+    <ion-icon name="log-in" slot="start"></ion-icon>
+    <ion-label slot="end">{{ "signin" | translate }}</ion-label>
+  </ion-button>
+
+  <ion-button (click)="logout()"
+              *ngIf="currentUser"
+              color="danger"
+              expand="full"
+              shape="round">
+    <ion-icon name="log-in" slot="start"></ion-icon>
+    <ion-label slot="end">{{ "logout" | translate }}</ion-label>
+  </ion-button>
+
+  <ion-button (click)="showShareOptions()"
+              color="tertiary"
+              expand="full"
+              shape="round">
+    <ion-icon name="share-outline" slot="start"></ion-icon>
+    <ion-label slot="end">{{ "share" | translate }}</ion-label>
+  </ion-button>
+
+  <ion-button (click)="rateUs()"
+              color="secondary"
+              expand="full"
+              shape="round">
+    <ion-icon name="star" slot="start"></ion-icon>
+    <ion-label slot="end">{{ "rateUs" | translate }}</ion-label>
+  </ion-button>
+
+  <div (click)="sendEmail()" class="version">
+    <div aria-label="contact us" class="help-us" role="button">
+      <ion-icon aria-hidden="true" name="mail-outline" size="small"></ion-icon>
+      {{ "contactUs" | translate }}
     </div>
-
-    <ion-button (click)="openLoginModal()"
-                *ngIf="!currentUser" expand="full" shape="round">
-        <ion-icon name="log-in" slot="start"></ion-icon>
-        <ion-label slot="end">{{ "signin" | translate }}</ion-label>
-    </ion-button>
-
-    <ion-button (click)="logout()"
-                *ngIf="currentUser"
-                color="danger"
-                expand="full"
-                shape="round">
-        <ion-icon name="log-in" slot="start"></ion-icon>
-        <ion-label slot="end">{{ "logout" | translate }}</ion-label>
-    </ion-button>
-
-    <ion-button (click)="showShareOptions()"
-                color="tertiary"
-                expand="full"
-                shape="round">
-        <ion-icon name="share-outline" slot="start"></ion-icon>
-        <ion-label slot="end">{{ "share" | translate }}</ion-label>
-    </ion-button>
-
-    <ion-button (click)="rateUs()"
-                color="secondary"
-                expand="full"
-                shape="round">
-        <ion-icon name="star" slot="start"></ion-icon>
-        <ion-label slot="end">{{ "rateUs" | translate }}</ion-label>
-    </ion-button>
+    {{ environment.version }}
+    <br/>
+    {{ currentUser?.userId }}
+  </div>
 
 </ion-content>
